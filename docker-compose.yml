@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  bitmapper:
+    entrypoint: python index.py
+    image: python
+    network_mode: bridge
+    working_dir: /bitmapper
+    volumes:
+      - ./bitmapper:/bitmapper
