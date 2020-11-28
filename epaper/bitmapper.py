@@ -54,7 +54,7 @@ WHITE = '3'
 GRAYSCALE = [BLACK, DARK_GRAY, GRAY, WHITE]
 
 
-def to_grayscale(infile, colors):
+def to_grayscale(infile, colors, invert=False):
     """
     Convert an input file to grayscale using ImageMagik's `convert` command.
     """
@@ -65,8 +65,13 @@ def to_grayscale(infile, colors):
         "-colorspace gray "
         "-depth 2 "
         "-resize '800x600>' "
-        "pgm:-"
     ).format(infile=infile, colors=colors)
+
+    # Invert colors
+    if invert:
+        cmd += "-negate "
+
+    cmd += "pgm:-"
 
     # Log cmd
     sys.stderr.write(f'{cmd}\n')
@@ -166,6 +171,11 @@ def parse_args():
         help='Number of colors {2, 4}',
         type=int,
     )
+    parser.add_argument(
+        '-i', '--invert',
+        action='store_true',
+        help='Invert colors',
+    )
     return parser.parse_args()
 
 
@@ -178,9 +188,10 @@ def main():
     infile = args.INFILE if args.INFILE != '-' else '/dev/stdin'
     outfile = args.OUTFILE if args.OUTFILE != '-' else '/dev/stdout'
     colors = args.colors
+    invert = args.invert
 
     # Get bytes to write
-    grayscale = to_grayscale(infile, colors)
+    grayscale = to_grayscale(infile, colors, invert)
 
     # Write bytes
     with open(outfile, 'wb') as stream:

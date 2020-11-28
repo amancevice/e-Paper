@@ -1,9 +1,9 @@
 version: '3.8'
 services:
   bitmapper:
-    entrypoint: python index.py
+    entrypoint: python -m epaper.bitmapper
     image: python
     network_mode: bridge
-    working_dir: /bitmapper
+    working_dir: /epaper
     volumes:
-      - ./bitmapper:/bitmapper
+      - ./:/epaper
