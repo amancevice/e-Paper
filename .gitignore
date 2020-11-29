@@ -1,4 +1,5 @@
 *.BMP
 **/.venv/
 **/IN/
-***/OUT/
+**/OUT/
+**/__pycache__/
