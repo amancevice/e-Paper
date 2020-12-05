@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 
 from RPi import GPIO  # noqa
-from .epaper import (
+from waveshare.uart import (
     DisplayImage,
     EPaper,
     FillRectangle,

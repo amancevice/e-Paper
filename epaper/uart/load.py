@@ -2,7 +2,7 @@
 import time
 
 from RPi import GPIO  # noqa
-from .epaper import (
+from waveshare.uart import (
     EPaper,
     Handshake,
     ImportImage,

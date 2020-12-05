@@ -54,7 +54,7 @@ WHITE = '3'
 GRAYSCALE = [BLACK, DARK_GRAY, GRAY, WHITE]
 
 
-def to_grayscale(infile, colors, invert=False):
+def to_grayscale(infile, colors, resize, invert=False):
     """
     Convert an input file to grayscale using ImageMagik's `convert` command.
     """
@@ -64,8 +64,8 @@ def to_grayscale(infile, colors, invert=False):
         "-colors {colors} "
         "-colorspace gray "
         "-depth 2 "
-        "-resize '800x600>' "
-    ).format(infile=infile, colors=colors)
+        "-resize '{resize}' "
+    ).format(colors=colors, infile=infile, resize=resize)
 
     # Invert colors
     if invert:
@@ -176,6 +176,11 @@ def parse_args():
         action='store_true',
         help='Invert colors',
     )
+    parser.add_argument(
+        '-r', '--resize',
+        default='400x300>',
+        help='Resize value [default: 400x300>]',
+    )
     return parser.parse_args()
 
 
@@ -189,9 +194,10 @@ def main():
     outfile = args.OUTFILE if args.OUTFILE != '-' else '/dev/stdout'
     colors = args.colors
     invert = args.invert
+    resize = args.resize
 
     # Get bytes to write
-    grayscale = to_grayscale(infile, colors, invert)
+    grayscale = to_grayscale(infile, colors, resize, invert)
 
     # Write bytes
     with open(outfile, 'wb') as stream:
