@@ -2,9 +2,11 @@ version: '3.8'
 services:
   dev:
     command: python -m http.server
-    # entrypoint: python -m epaper.bitmapper
     image: python
     network_mode: bridge
     working_dir: /epaper
     volumes:
       - ./:/epaper
+      - root:/root
+volumes:
+  root:
